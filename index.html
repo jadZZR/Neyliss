@@ -44,7 +44,7 @@
             overflow-x: hidden;
         }
 
-        /* --- PRELOADER AVEC ABSORPTION DE PAILLETTES --- */
+        /* --- PRELOADER (PLUS RAPIDE) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             display: flex; justify-content: center; align-items: center; pointer-events: none;
@@ -52,7 +52,7 @@
         }
         .curtain {
             position: absolute; left: 0; width: 100%; height: 51%; background: var(--color-jungle); z-index: 10;
-            transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1);
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
         }
         .curtain.top { top: 0; border-bottom: 2px solid var(--color-gold); }
         .curtain.bottom { bottom: 0; border-top: 2px solid var(--color-gold); }
@@ -63,28 +63,29 @@
         }
         
         .loader-logo img {
-            width: clamp(150px, 40vw, 220px); height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold);
-            animation: divineEntrance 1.8s forwards, magicPulse 2.5s infinite 1.8s; opacity: 0; display: block;
+            width: clamp(140px, 35vw, 190px); height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold);
+            animation: divineEntrance 1s forwards, magicPulse 2s infinite 1s; opacity: 0; display: block;
         }
 
-        .loader-title { margin-top: 25px; color: var(--color-gold); letter-spacing: 6px; font-family: var(--font-title); font-size: 2.2rem; text-transform: uppercase; }
-        .loader-line { width: 120px; height: 1px; background: var(--color-gold); margin-top: 20px; opacity: 0.5; box-shadow: 0 0 10px var(--color-gold); }
+        .loader-title { margin-top: 20px; color: var(--color-gold); letter-spacing: 5px; font-family: var(--font-title); font-size: 2rem; text-transform: uppercase; }
+        .loader-line { width: 100px; height: 1px; background: var(--color-gold); margin-top: 15px; opacity: 0.5; box-shadow: 0 0 10px var(--color-gold); }
 
+        /* PAILLETTES D'OR */
         .gold-sparkle {
             position: absolute; width: 8px; height: 8px;
             background: radial-gradient(circle, var(--color-gold-bright), var(--color-gold));
             border-radius: 50% 0 50% 0; z-index: 12; filter: drop-shadow(0 0 8px var(--color-gold-bright));
-            animation: absorbToCenter 2.5s forwards ease-in;
+            animation: absorbToCenter 1.5s forwards ease-in;
         }
 
         @keyframes absorbToCenter {
             0% { transform: translate(var(--startX), var(--startY)) rotate(0deg) scale(0); opacity: 0; }
-            20% { opacity: 1; scale: 1.2; }
+            30% { opacity: 1; scale: 1.2; }
             100% { transform: translate(0, 0) rotate(720deg) scale(0); opacity: 0; }
         }
 
         @keyframes divineEntrance { 
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(15px); } 
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); } 
             100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } 
         }
         @keyframes magicPulse { 
@@ -94,14 +95,14 @@
         
         body.loaded #preloader .curtain.top { transform: translateY(-100%); }
         body.loaded #preloader .curtain.bottom { transform: translateY(100%); }
-        body.loaded #preloader .loader-content { opacity: 0; transition: 0.5s; visibility: hidden; }
+        body.loaded #preloader .loader-content { opacity: 0; transition: 0.4s; visibility: hidden; }
 
         /* --- REVEAL --- */
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- TITRES DE SECTION 3D --- */
-        .section-header { text-align: center; margin-bottom: 80px; position: relative; perspective: 500px; padding: 0 20px; }
+        .section-header { text-align: center; margin-bottom: 60px; position: relative; perspective: 500px; padding: 0 20px; }
         .section-title {
             font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; text-transform: uppercase; letter-spacing: 4px; display: inline-block;
             background: linear-gradient(to bottom, #fcf6ba 0%, #bf953f 40%, #8a6e2f 100%);
@@ -122,24 +123,22 @@
         .leaf { position: absolute; opacity: 0; animation: floatLeaf 15s infinite linear; }
         @keyframes floatLeaf { 
             0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; } 
-            10% { opacity: 0.35; } 90% { opacity: 0.35; } 
+            10% { opacity: 0.3; } 90% { opacity: 0.3; } 
             100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; } 
         }
 
         /* --- HEADER --- */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
-            z-index: 3000; background: rgba(1, 10, 6, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            z-index: 3000; background: rgba(1, 10, 6, 0.92); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             display: flex; align-items: center; justify-content: center; transition: 0.4s;
         }
         header.scrolled { height: 70px; background: rgba(1, 10, 6, 0.98); }
         .nav-container { width: 100%; max-width: 1400px; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--color-gold); letter-spacing: 3px; }
+        .logo { font-family: var(--font-title); font-size: 1.4rem; font-weight: 700; color: var(--color-gold); letter-spacing: 3px; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; transition: 0.3s; color: rgba(255,255,255,0.8); }
-        .nav-links a:hover { color: var(--color-gold); }
-        .btn-nav { padding: 10px 24px; border: 1px solid var(--color-gold); border-radius: 50px; color: var(--color-gold) !important; font-weight: 600; background: rgba(212, 175, 55, 0.05); }
-        .btn-nav:hover { background: var(--color-gold) !important; color: #000 !important; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+        .nav-links a { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.8); }
+        .btn-nav { padding: 10px 22px; border: 1px solid var(--color-gold); border-radius: 50px; color: var(--color-gold) !important; font-weight: 600; background: rgba(212, 175, 55, 0.05); }
         .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 4000; width: 28px; }
         .hamburger span { width: 100%; height: 2px; background: var(--color-gold); transition: 0.4s; }
 
@@ -152,29 +151,33 @@
         .cta-button:hover { background: var(--color-gold); color: #000; box-shadow: 0 0 40px var(--color-gold); transform: translateY(-3px); }
 
         /* --- SERVICES CARDS --- */
-        #services { padding: 120px 5%; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        #services { padding: 100px 5%; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
         .card-container { height: 560px; perspective: 1500px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .card-container:hover .card-inner { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; border: 1px solid var(--color-gold); background: rgba(5, 43, 30, 0.85); backdrop-filter: blur(20px); }
+        .card-face {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
+            border: 1px solid var(--color-gold); background: rgba(5, 43, 30, 0.85); backdrop-filter: blur(20px);
+        }
         .card-front { background: linear-gradient(145deg, rgba(13, 66, 48, 0.8), rgba(0,0,0,0.95)); }
         .card-icon { font-size: 4rem; color: var(--color-gold); margin-bottom: 30px; filter: drop-shadow(0 0 15px var(--color-gold)); }
         .card-title { font-size: 2.2rem; font-family: var(--font-title); color: #fff; text-align: center; margin-bottom: 10px; }
         .card-back { background: linear-gradient(145deg, #001a11, #0a3825); transform: rotateY(180deg); text-align: left; align-items: flex-start; overflow-y: auto; }
         .card-back h3 { color: var(--color-gold); font-family: var(--font-title); font-size: 1.6rem; margin-bottom: 15px; border-bottom: 1px solid var(--color-gold); width: 100%; text-align: center; }
-        .card-back p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px; color: #eee; }
+        .card-back p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px; color: #eee; }
         .card-back ul li { font-size: 0.8rem; margin-bottom: 10px; font-weight: 500; color: var(--color-gold-bright); text-shadow: 0 0 10px rgba(249, 229, 162, 0.5); display: flex; align-items: center; gap: 10px; }
         .card-back ul li::before { content: '✦'; color: var(--color-gold); font-size: 1rem; }
         .reserve-mini-btn { margin-top: auto; align-self: center; padding: 14px 35px; background: var(--color-gold); color: #000; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* --- VIDEO GALLERY (AUTOPLAY) --- */
+        /* --- VIDEO GALLERY (FORCE VISIBILITY) --- */
         #gallery { padding: 100px 0; }
         .gallery-scroller { display: flex; overflow-x: auto; padding: 40px 5%; gap: 35px; scrollbar-width: none; }
-        .gallery-video { min-width: 320px; height: 480px; border-radius: 25px; object-fit: cover; border: 2px solid rgba(212, 175, 55, 0.2); transition: 0.5s; filter: grayscale(20%); background: #000; }
+        .gallery-video { min-width: 310px; height: 480px; border-radius: 25px; object-fit: cover; border: 2px solid rgba(212, 175, 55, 0.2); transition: 0.5s; filter: grayscale(10%); background: #000; }
         .gallery-video:hover { transform: scale(1.05); filter: grayscale(0%); border-color: var(--color-gold); box-shadow: 0 0 30px var(--color-gold); }
 
-        /* --- TESTIMONIALS (3D FLOATING) --- */
+        /* --- TESTIMONIALS --- */
         #reviews { padding: 120px 5%; perspective: 1000px; }
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; max-width: 1400px; margin: 50px auto 0; }
         .review-card {
@@ -235,9 +238,6 @@
         .socials { display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; position: relative; z-index: 2; }
         .social-link { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--color-gold); transition: 0.4s; backdrop-filter: blur(5px); }
         .social-link:hover { background: var(--color-gold); color: #000; transform: translateY(-10px) scale(1.1); }
-        .footer-info { color: rgba(255,255,255,0.4); font-size: 0.85rem; letter-spacing: 2px; margin-top: 20px; text-transform: uppercase; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 900px) {
             header { height: 70px; }
@@ -245,16 +245,17 @@
             .nav-links.active { right: 0; }
             .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
             .hamburger span { width: 25px; height: 2px; background: var(--color-gold); }
-            .hero-title { font-size: 2.8rem; }
+            .hero-title { font-size: 2.5rem; }
             .cal-wrapper { grid-template-columns: 1fr; }
             .service-list { grid-template-columns: 1fr; }
             .wizard-body { padding: 30px 20px; }
+            .gallery-video { min-width: 270px; height: 420px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PRELOADER AVEC ABSORPTION DE PAILLETTES -->
+    <!-- PRELOADER -->
     <div id="preloader">
         <div class="curtain top"></div>
         <div class="loader-content" id="loaderContent">
@@ -267,7 +268,6 @@
         <div class="curtain bottom"></div>
     </div>
 
-    <!-- FEUILLES TROPICALES -->
     <div class="leaves-container" id="leavesContainer"></div>
 
     <!-- HEADER -->
@@ -331,8 +331,8 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Nano Indien</h3>
-                        <p>Le must du lissage protéiné. Lisse à 100% même les cheveux les plus résistants tout en les reconstruisant.</p>
-                        <ul><li>Lissage Protéiné Intense</li><li>Luminothérapie</li><li>Soins profonds</li><li>Coupe pointes</li></ul>
+                        <p>Le must du lissage protéiné. Lisse à 100% même les cheveux les plus résistants tout en les reconstruisant en profondeur.</p>
+                        <ul><li>Lissage Protéiné Intense</li><li>Luminothérapie</li><li>Soins Reconstructeurs</li><li>Coupe des pointes</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Nano Indien')">Choisir</button>
                     </div>
                 </div>
@@ -346,8 +346,8 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Botox Gloss Lissant</h3>
-                        <p>UN BOTOX CAPILLAIRE LISSANT, QUI ALLIE SOIN PROFOND ET ACTION GAINANTE POUR SUBLIMER LA CHEVELURE.</p>
-                        <ul><li>RÉDUIT LE VOLUME</li><li>DISCIPLINE LES FRISOTTIS</li><li>BRILLANCE MIROIR</li><li>TENUE 3 À 4 MOIS</li></ul>
+                        <p>UN BOTOX CAPILLAIRE LISSANT, QUI ALLIE SOIN PROFOND ET ACTION GAINANTE POUR SUBLIMER LA CHEVELURE SANS L'ALOURDIR.</p>
+                        <ul><li>RÉDUIT LE VOLUME</li><li>DISCIPLINE LES FRISOTTIS</li><li>BRILLANCE EFFET MIROIR</li><li>TENUE 3 À 4 MOIS</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Botox Gloss (Lissant)')">Choisir</button>
                     </div>
                 </div>
@@ -361,7 +361,7 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Botox Non Lissant</h3>
-                        <p><strong>SILK :</strong> SOIN ENRICHI EN PROTÉINE DE SOIE. <strong>KERATINE :</strong> RÉPARATEUR RENFORCE LA FIBRE.</p>
+                        <p><strong>SILK :</strong> SOIN ENRICHI EN PROTÉINE DE SOIE, IDÉAL POUR UNE CHEVELURE LÉGÈRE ET FLUIDE. <strong>KERATINE :</strong> RÉPARATEUR AGIT EN PROFONDEUR POUR RENFORCER LA FIBRE.</p>
                         <ul><li>STIMULE LA POUSSE</li><li>LIMITE LA CASSE</li><li>NUTRITION INTENSE</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Botox Non Lissant')">Choisir</button>
                     </div>
@@ -377,7 +377,7 @@
                     <div class="card-face card-back">
                         <h3>Silk Press</h3>
                         <p>Technique thermique sans chimie pour transformer vos cheveux en soie jusqu'au prochain lavage.</p>
-                        <ul><li>Shampoing Hydra</li><li>Soin Thermo-protecteur</li><li>Lissage Thermique Pro</li><li>Finition Silk</li></ul>
+                        <ul><li>Shampoing Hydra</li><li>Soin Thermo-protecteur</li><li>Lissage Pro</li><li>Sérum Silk</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Silk Press')">Choisir</button>
                     </div>
                 </div>
@@ -392,7 +392,7 @@
                     <div class="card-face card-back">
                         <h3>Forfait Racines</h3>
                         <p>RÉSERVÉ EXCLUSIVEMENT AUX CLIENTES AYANT EFFECTUÉ LEUR LISSAGE CHEZ MOI. TRAITE UNIQUEMENT LA REPOUSSE.</p>
-                        <ul><li>VALABLE JUSQU'À 6 MOIS</li><li>PRÉSERVE LES LONGUEURS</li><li>RÉSULTAT HOMOGÈNE</li></ul>
+                        <ul><li>VALABLE 6 MOIS</li><li>PRÉSERVE LES LONGUEURS</li><li>RÉSULTAT HOMOGÈNE</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Forfait Racines')">Choisir</button>
                     </div>
                 </div>
@@ -400,7 +400,7 @@
         </div>
     </section>
 
-    <!-- GALLERY (AUTOPLAY INSTANTANÉ) -->
+    <!-- GALLERY (OPTIMISÉE) -->
     <section id="gallery" class="reveal">
         <div class="section-header">
             <h2 class="section-title">Résultats en Mouvement</h2>
@@ -416,7 +416,37 @@
         </div>
     </section>
 
-    <!-- FAQ (ENRICHIE) -->
+    <!-- TESTIMONIALS -->
+    <section id="reviews" class="reveal">
+        <div class="section-header">
+            <h2 class="section-title">Elles nous font confiance</h2>
+            <div class="title-divider"></div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Mes cheveux n'ont jamais été aussi brillants. Le lissage au tanin a sauvé mes longueurs. Un travail d'orfèvre !"</p>
+                <p class="client-name">- SARAH M.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Le Botox Gloss lissant a totalement discipliné mes frisottis. L'effet miroir est incroyable. Je recommande."</p>
+                <p class="client-name">- EMMA R.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Soin incroyable, mes cheveux revivent ! L'effet Tanin est bluffant sur mes boucles rebelles."</p>
+                <p class="client-name">- LÉA V.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Prestation de luxe, accueil chaleureux. Le forfait racines est parfait pour l'entretien."</p>
+                <p class="client-name">- CHLOÉ B.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
     <section id="faq" class="reveal">
         <div class="section-header">
             <h2 class="section-title">Foire Aux Questions</h2>
@@ -429,24 +459,24 @@
             </div>
             <div class="faq-item" onclick="toggleFaq(this)">
                 <div class="faq-question">Puis-je faire un lissage sur cheveux colorés ? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Oui, tout à fait. Cependant, il est conseillé d'attendre environ 15 jours entre une coloration et un lissage pour ne pas altérer les pigments.</div>
+                <div class="faq-answer">Oui, tout à fait. Cependant, il est conseillé d'attendre environ 15 jours entre une coloration et un lissage.</div>
             </div>
             <div class="faq-item" onclick="toggleFaq(this)">
                 <div class="faq-question">Le lissage abîme-t-il les cheveux ? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Au contraire, nos lissages sont riches en protéines et agents réparateurs qui reconstruisent la fibre capillaire. C'est un véritable soin reconstructeur.</div>
+                <div class="faq-answer">Au contraire, nos lissages sont riches en protéines et agents réparateurs qui reconstruisent la fibre capillaire.</div>
             </div>
             <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-question">Comment entretenir mon lissage en vacances ? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Le chlore et le sel sont les ennemis du lissage. Avant chaque baignade, appliquez une huile ou un spray protecteur et rincez vos cheveux à l'eau claire immédiatement après.</div>
+                <div class="faq-question">Les soins sont-ils compatibles grossesse/allaitement ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Oui, nos produits sont sélectionnés pour leur haute qualité et sont formulés sans formol ni substances nocives. Cependant, nous recommandons toujours l'avis de votre médecin.</div>
             </div>
             <div class="faq-item" onclick="toggleFaq(this)">
                 <div class="faq-question">Quels produits utiliser après le soin ? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Pour faire durer votre lissage, il est impératif d'utiliser un shampoing sans sulfates (SLS). Nous vous conseillerons les meilleures gammes lors de votre rendez-vous.</div>
+                <div class="faq-answer">Il est impératif d'utiliser un shampoing sans sulfates (SLS) pour préserver les effets du soin.</div>
             </div>
         </div>
     </section>
 
-    <!-- BOOKING SYSTEM -->
+    <!-- BOOKING -->
     <section id="booking" class="reveal">
         <div class="section-header">
             <h2 class="section-title">Votre Réservation</h2>
@@ -521,66 +551,66 @@
     </footer>
 
     <script>
-        // HEADER EFFECT
+        // --- HEADER SCROLL ---
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainHeader');
             if (window.scrollY > 50) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // PRELOADER & GOLD PARTICLES (OPTIMISÉ GITHUB)
+        // --- PRELOADER & GOLD PARTICLES ---
         window.addEventListener('load', () => {
             generateGoldLeaves();
             generateLeaves();
-            // Force l'ouverture du site après 3s max
+            
+            // On force l'ouverture après 1.8s quoi qu'il arrive
             setTimeout(() => {
                 document.body.classList.add('loaded');
-                setTimeout(() => { if(document.getElementById('preloader')) document.getElementById('preloader').style.display='none'; }, 1500);
-            }, 3000);
+                // Force play videos after open
+                const videos = document.querySelectorAll('video');
+                videos.forEach(v => v.play().catch(() => {}));
+                
+                setTimeout(() => { 
+                    if(document.getElementById('preloader')) document.getElementById('preloader').style.display='none'; 
+                }, 1000);
+            }, 1800);
         });
 
         function generateGoldLeaves() {
-            const preloader = document.getElementById('preloader');
-            if(!preloader) return;
-            const count = 45;
-            for(let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    const sparkle = document.createElement('div');
-                    sparkle.className = 'gold-sparkle';
-                    
-                    const angle = Math.random() * Math.PI * 2;
-                    const dist = Math.max(window.innerWidth, window.innerHeight) * 0.7;
-                    const sx = Math.cos(angle) * dist + 'px';
-                    const sy = Math.sin(angle) * dist + 'px';
-
-                    sparkle.style.setProperty('--startX', sx);
-                    sparkle.style.setProperty('--startY', sy);
-                    // Centre exact pour l'absorption
-                    sparkle.style.left = '50%'; sparkle.style.top = '50%';
-                    sparkle.style.animationDelay = (Math.random() * 1.5) + 's';
-                    
-                    preloader.appendChild(sparkle);
-                }, i * 40);
+            const loader = document.getElementById('preloader');
+            if(!loader) return;
+            // On génère 45 paillettes d'un coup pour être sûr qu'elles soient là
+            for(let i = 0; i < 45; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'gold-sparkle';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.max(window.innerWidth, window.innerHeight) * 0.7;
+                const sx = Math.cos(angle) * dist + 'px';
+                const sy = Math.sin(angle) * dist + 'px';
+                sparkle.style.setProperty('--startX', sx);
+                sparkle.style.setProperty('--startY', sy);
+                sparkle.style.left = '50%'; sparkle.style.top = '50%';
+                sparkle.style.animationDelay = (Math.random() * 1) + 's';
+                loader.appendChild(sparkle);
             }
         }
 
         function generateLeaves() {
             const lCont = document.getElementById('leavesContainer');
             if(!lCont) return;
-            lCont.innerHTML = ""; 
             for(let i=0; i<60; i++) {
                 const l = document.createElement('i'); 
                 l.className = 'fas fa-leaf leaf';
-                l.style.fontSize = (Math.random()*25+15)+'px'; 
+                l.style.fontSize = (Math.random()*20+15)+'px'; 
                 l.style.left = Math.random()*100+'vw';
                 l.style.color = Math.random()>0.5 ? 'rgba(212,175,55,0.25)' : 'rgba(13,66,48,0.35)';
                 l.style.animationDuration = (Math.random()*15+10)+'s'; 
-                l.style.animationDelay = '-'+(Math.random()*20)+'s';
+                l.style.animationDelay = '-'+(Math.random()*15)+'s';
                 lCont.appendChild(l);
             }
         }
 
-        // NAVIGATION
+        // --- NAVIGATION ---
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
         function navTo(e, id) { e.preventDefault(); const nav = document.getElementById('navLinks'); if(nav.classList.contains('active')) nav.classList.remove('active'); const t = document.getElementById(id); if(t) window.scrollTo({top: t.offsetTop-80, behavior:'auto'}); }
         function scrollToBooking() { const b = document.getElementById('booking'); if(b) window.scrollTo({top: b.offsetTop-80, behavior:'auto'}); }
@@ -589,10 +619,10 @@
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
         function handleCardClick(c, n) { if(window.innerWidth<=768) { if(!c.classList.contains('flipped')) { document.querySelectorAll('.card-container').forEach(o=>o.classList.remove('flipped')); c.classList.add('flipped'); } } else preselect(n); }
-        function preselect(n) { scrollToBooking(); document.querySelectorAll('.srv-item').forEach(o => { if(o.innerText.includes(n) || (o.innerText.includes("Botox Gloss") && n.includes("Botox Gloss"))) selBookingS(o, n); }); currS_B = 1; showS_B(1); }
+        function preselect(n) { scrollToBooking(); document.querySelectorAll('.srv-item').forEach(o => { if(o.innerText.includes(n)) selBookingS(o, n); }); currS_B = 1; showS_B(1); }
         function toggleFaq(el) { el.classList.toggle('active'); }
 
-        // LOGIQUE RÉSERVATION & MAIL
+        // --- LOGIQUE RÉSERVATION ---
         let currS_B = 1, bData = {s:null, d:null, t:null}, cY = 2026, cM = 4;
         const months = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
 
@@ -628,7 +658,7 @@
                 const phone = document.getElementById('b-phone').value.trim();
                 const notes = document.getElementById('b-notes').value.trim() || "Aucune note";
                 const subject = encodeURIComponent(`Réservation NEY LISS - ${name}`);
-                const body = encodeURIComponent(`Bonjour NEY LISS,\n\nNouvelle demande effectuée :\n\nSoin : ${bData.s}\nDate : ${bData.d}\nHeure : ${bData.t}\nClient : ${name}\nTel : ${phone}\nNotes : ${notes}`);
+                const body = encodeURIComponent(`Bonjour NEY LISS,\n\nPrestation : ${bData.s}\nDate : ${bData.d}\nHeure : ${bData.t}\nClient : ${name}\nTel : ${phone}\nNotes : ${notes}`);
                 window.location.href = `mailto:neyliss.pro@gmail.com?subject=${subject}&body=${body}`;
                 document.getElementById('btnN').innerText="Envoyé !"; return;
             }
