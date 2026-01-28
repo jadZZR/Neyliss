@@ -44,7 +44,7 @@
             overflow-x: hidden;
         }
 
-        /* --- PRELOADER (RAPIDE & LUXUEUX) --- */
+        /* --- PRELOADER (RAPIDE & FLOWERS) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             display: flex; justify-content: center; align-items: center; pointer-events: none;
@@ -52,7 +52,7 @@
         }
         .curtain {
             position: absolute; left: 0; width: 100%; height: 51%; background: var(--color-jungle); z-index: 10;
-            transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1); /* Ouverture plus rapide */
+            transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1); /* Plus rapide */
         }
         .curtain.top { top: 0; border-bottom: 2px solid var(--color-gold); }
         .curtain.bottom { bottom: 0; border-top: 2px solid var(--color-gold); }
@@ -63,45 +63,70 @@
         }
         
         .loader-logo img {
-            width: clamp(140px, 35vw, 200px); height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold);
+            width: clamp(140px, 35vw, 190px); height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold);
             animation: divineEntrance 0.8s forwards, magicPulse 2s infinite 0.8s; opacity: 0; display: block;
         }
 
         .loader-title { margin-top: 20px; color: var(--color-gold); letter-spacing: 5px; font-family: var(--font-title); font-size: 2rem; text-transform: uppercase; }
         .loader-line { width: 100px; height: 1px; background: var(--color-gold); margin-top: 15px; opacity: 0.5; box-shadow: 0 0 10px var(--color-gold); }
 
-        /* PAILLETTES D'OR (PLUS RAPIDES) */
-        .gold-sparkle {
-            position: absolute; width: 8px; height: 8px;
-            background: radial-gradient(circle, var(--color-gold-bright), var(--color-gold));
-            border-radius: 50% 0 50% 0; z-index: 12; filter: drop-shadow(0 0 8px var(--color-gold-bright));
-            animation: absorbToCenter 1.2s forwards ease-in; /* Animation raccourcie */
+        /* FLEURS D'OR DANS L'ANIMATION */
+        .gold-flower-particle {
+            position: absolute; 
+            z-index: 12; 
+            color: var(--color-gold-bright);
+            filter: drop-shadow(0 0 10px var(--color-gold));
+            pointer-events: none;
+            animation: absorbFlower 1.5s forwards ease-in;
         }
 
-        @keyframes absorbToCenter {
+        @keyframes absorbFlower {
             0% { transform: translate(var(--startX), var(--startY)) rotate(0deg) scale(0); opacity: 0; }
-            20% { opacity: 1; scale: 1.2; }
-            100% { transform: translate(0, 0) rotate(720deg) scale(0); opacity: 0; }
+            20% { opacity: 1; scale: 1.5; }
+            100% { transform: translate(0, 0) rotate(360deg) scale(0); opacity: 0; }
         }
 
         @keyframes divineEntrance { 
-            0% { opacity: 0; transform: scale(0.8) translateY(15px); filter: blur(10px); } 
+            0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px); } 
             100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } 
         }
         @keyframes magicPulse { 
-            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); } 
-            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.7); transform: scale(1.02); } 
+            0%, 100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); } 
+            50% { box-shadow: 0 0 60px rgba(212, 175, 55, 0.8); transform: scale(1.02); } 
         }
         
         body.loaded #preloader .curtain.top { transform: translateY(-100%); }
         body.loaded #preloader .curtain.bottom { transform: translateY(100%); }
         body.loaded #preloader .loader-content { opacity: 0; transition: 0.3s; visibility: hidden; }
 
+        /* --- EFFET DE SURVEILLANCE DORÉE (SHIMMER) --- */
+        .btn-nav, .reserve-mini-btn, .social-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-nav::after, .reserve-mini-btn::after, .social-link::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            transition: 0s;
+        }
+
+        .btn-nav:hover::after, .reserve-mini-btn:hover::after, .social-link:hover::after {
+            left: 150%;
+            transition: 0.6s ease-in-out;
+        }
+
         /* --- REVEAL --- */
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- TITRES DE SECTION 3D --- */
+        /* --- TITRES 3D --- */
         .section-header { text-align: center; margin-bottom: 70px; position: relative; perspective: 500px; padding: 0 20px; }
         .section-title {
             font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; text-transform: uppercase; letter-spacing: 4px; display: inline-block;
@@ -109,12 +134,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 10px 20px rgba(0,0,0,0.4); position: relative; transition: 0.5s;
         }
         .section-header:hover .section-title { transform: rotateX(15deg); }
-        .section-title::after {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg); animation: textShine 4s infinite linear;
-        }
-        @keyframes textShine { 0% { left: -150%; } 20%, 100% { left: 150%; } }
         .title-divider { width: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); margin: 12px auto 0; transition: width 1.2s ease-out 0.3s; box-shadow: 0 0 10px var(--color-gold); }
         .reveal.active .title-divider { width: 220px; }
 
@@ -139,7 +158,6 @@
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; color: rgba(255,255,255,0.8); }
         .btn-nav { padding: 10px 22px; border: 1px solid var(--color-gold); border-radius: 50px; color: var(--color-gold) !important; font-weight: 600; background: rgba(212, 175, 55, 0.05); }
-        .btn-nav:hover { background: var(--color-gold) !important; color: #000 !important; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
         .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 4000; width: 28px; }
         .hamburger span { width: 100%; height: 2px; background: var(--color-gold); transition: 0.4s; }
 
@@ -158,11 +176,7 @@
         .card-inner { position: relative; width: 100%; height: 100%; transition: 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .card-container:hover .card-inner { transform: rotateY(180deg); }
         .card-container.flipped .card-inner { transform: rotateY(180deg); }
-        .card-face {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius);
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
-            border: 1px solid var(--color-gold); background: rgba(5, 43, 30, 0.85); backdrop-filter: blur(20px);
-        }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; border: 1px solid var(--color-gold); background: rgba(5, 43, 30, 0.85); backdrop-filter: blur(20px); }
         .card-front { background: linear-gradient(145deg, rgba(13, 66, 48, 0.8), rgba(0,0,0,0.95)); }
         .card-icon { font-size: 3.5rem; color: var(--color-gold); margin-bottom: 25px; filter: drop-shadow(0 0 10px var(--color-gold)); }
         .card-title { font-size: 2.2rem; font-family: var(--font-title); color: #fff; text-align: center; margin-bottom: 10px; }
@@ -173,43 +187,74 @@
         .card-back ul li::before { content: '✦'; color: var(--color-gold); font-size: 1rem; }
         .reserve-mini-btn { margin-top: auto; align-self: center; padding: 14px 35px; background: var(--color-gold); color: #000; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
+        /* --- DIAGNOSTIC VIRTUEL (CONSEIL) --- */
+        #diagnostic { padding: 100px 5%; background: rgba(0,0,0,0.2); }
+        .quiz-card { max-width: 850px; margin: 0 auto; background: var(--glass); border: 1px solid var(--color-gold); border-radius: 40px; padding: clamp(30px, 8vw, 60px); text-align: center; backdrop-filter: blur(30px); box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+        .quiz-step { display: none; animation: fadeIn 0.6s ease-out; }
+        .quiz-step.active { display: block; }
+        .quiz-options { display: grid; gap: 15px; margin-top: 30px; }
+        .quiz-opt { padding: 20px; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(212,175,55,0.2); border-radius: 15px; cursor: pointer; transition: 0.4s; font-size: 1rem; color: #ddd; }
+        .quiz-opt:hover { background: rgba(212,175,55,0.15); border-color: var(--color-gold); color: #fff; transform: translateX(10px); }
+        .result-box { background: linear-gradient(135deg, rgba(212,175,55,0.15), transparent); border: 2px solid var(--color-gold); padding: 30px; border-radius: 25px; margin-top: 25px; }
+
         /* --- VIDEO GALLERY --- */
         #gallery { padding: 80px 0; }
-        .gallery-scroller { display: flex; overflow-x: auto; padding: 30px 5%; gap: 30px; scrollbar-width: none; }
+        .gallery-scroller { display: flex; overflow-x: auto; padding: 20px 5%; gap: 30px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .gallery-video { min-width: 300px; height: 480px; border-radius: 25px; object-fit: cover; border: 2px solid rgba(212, 175, 55, 0.2); transition: 0.5s; background: #000; }
         .gallery-video:hover { transform: scale(1.05); border-color: var(--color-gold); }
 
+        /* --- TESTIMONIALS --- */
+        #reviews { padding: 100px 5%; perspective: 1000px; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; max-width: 1400px; margin: 40px auto 0; }
+        .review-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gold); padding: 40px; border-radius: 25px; 
+            text-align: center; transition: 0.6s; backdrop-filter: blur(15px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); animation: floatCard 6s ease-in-out infinite;
+        }
+        .review-card:hover { animation-play-state: paused; transform: translateY(-15px); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212, 175, 55, 0.5); }
+        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .stars { color: var(--color-gold); margin-bottom: 20px; font-size: 1.1rem; }
+
         /* --- FAQ --- */
         #faq { padding: 100px 5%; }
-        .faq-container { max-width: 900px; margin: 0 auto; }
-        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 15px; margin-bottom: 15px; overflow: hidden; transition: 0.3s; backdrop-filter: blur(10px); }
-        .faq-question { padding: 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.1rem; color: #eee; }
-        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: 0.4s ease; color: #aaa; line-height: 1.7; }
-        .faq-item.active .faq-answer { padding: 0 25px 25px; max-height: 350px; }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 15px; margin-bottom: 12px; overflow: hidden; transition: 0.3s; backdrop-filter: blur(10px); }
+        .faq-question { padding: 22px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #eee; }
+        .faq-answer { padding: 0 22px; max-height: 0; overflow: hidden; transition: 0.4s ease; color: #aaa; line-height: 1.6; font-size: 0.9rem; }
+        .faq-item.active .faq-answer { padding: 0 22px 22px; max-height: 350px; }
 
         /* --- BOOKING --- */
         #booking { padding: 100px 5%; }
         .wizard-container { max-width: 950px; margin: 0 auto; background: rgba(5, 43, 30, 0.75); backdrop-filter: blur(25px); border: 1px solid var(--color-gold); border-radius: 35px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
-        .wizard-header { padding: 25px; border-bottom: 1px solid rgba(212,175,55,0.2); text-align: center; }
+        .wizard-header { padding: 20px; border-bottom: 1px solid rgba(212,175,55,0.2); text-align: center; }
         .progress-dots { display: flex; justify-content: center; gap: 15px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; background: #333; transition: 0.3s; border: 1px solid #444; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; border: 1px solid #444; }
         .dot.active { background: var(--color-gold); border-color: #fff; }
-        .wizard-body { padding: 50px; min-height: 450px; }
+        .wizard-body { padding: clamp(25px, 5vw, 50px); min-height: 450px; }
         .step { display: none; animation: fadeIn 0.5s ease; }
         .step.active { display: block; }
         .service-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-        .srv-item { padding: 22px; border: 1.5px solid #222; border-radius: 20px; transition: 0.3s; cursor: pointer; background: rgba(255,255,255,0.03); display: flex; align-items: center; gap: 20px; text-align: left; }
+        .srv-item { padding: 22px; border: 1.5px solid #222; border-radius: 18px; transition: 0.3s; cursor: pointer; background: rgba(255,255,255,0.03); display: flex; align-items: center; gap: 20px; text-align: left; }
         .srv-item.selected { background: var(--color-gold); color: #000; border-color: #fff; font-weight: 700; }
-        .form-group { margin-bottom: 25px; text-align: left; }
-        .form-group input, .form-group textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.04); border: 1px solid #444; border-radius: 12px; color: #fff; outline: none; font-family: var(--font-body); }
+        .cal-wrapper { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; margin-top: 10px; }
+        .day { padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .day.selected { background: var(--color-gold); color: #000; font-weight: bold; }
+        .time-slots { display: grid; gap: 10px; max-height: 320px; overflow-y: auto; }
+        .time-btn { padding: 12px; border: 1px solid #444; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .time-btn.selected { background: var(--color-gold); color: #000; border-color: #fff; font-weight: 700; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.04); border: 1px solid #444; border-radius: 12px; color: #fff; font-family: var(--font-body); font-size: 1rem; }
         .wizard-footer { padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(212,175,55,0.1); }
-        .btn-next { padding: 14px 40px; background: var(--color-gold); border: none; border-radius: 50px; color: #000; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+        .btn-next { padding: 14px 40px; background: var(--color-gold); border: none; border-radius: 50px; color: #000; font-weight: 800; text-transform: uppercase; cursor: pointer; font-size: 0.9rem; }
+        .btn-next:disabled { background: #333; color: #666; cursor: not-allowed; }
 
         /* --- FOOTER --- */
         footer { padding: 100px 5% 60px; text-align: center; border-top: 1px solid var(--color-gold); background: linear-gradient(to bottom, #0d4230, #021a12); position: relative; overflow: hidden; }
         .footer-logo { font-family: var(--font-title); font-size: 2.3rem; color: var(--color-gold); margin-bottom: 30px; display: block; letter-spacing: 5px; font-weight: 700; }
-        .socials { display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; }
-        .social-link { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--color-gold); transition: 0.4s; }
+        .socials { display: flex; justify-content: center; gap: 25px; margin-bottom: 40px; }
+        .social-link { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--color-gold); transition: 0.4s; backdrop-filter: blur(5px); }
+        .social-link:hover { background: var(--color-gold); color: #000; transform: translateY(-10px); }
 
         @media (max-width: 900px) {
             .nav-container { padding: 0 4%; }
@@ -241,6 +286,7 @@
 
     <div class="leaves-container" id="leavesContainer"></div>
 
+    <!-- HEADER -->
     <header id="mainHeader">
         <div class="nav-container">
             <a href="#" class="logo">NEY LISS</a>
@@ -258,6 +304,7 @@
         </div>
     </header>
 
+    <!-- HERO -->
     <section id="hero">
         <div class="hero-content reveal" id="tiltElement">
             <h1 class="hero-title">
@@ -300,7 +347,7 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Nano Indien</h3>
-                        <p>Le must du lissage protéiné. Lisse à 100% même les cheveux les plus résistants tout en reconstruisant.</p>
+                        <p>Le must du lissage protéiné. Lisse à 100% même les cheveux les plus résistants tout en les reconstruisant en profondeur.</p>
                         <ul><li>Lissage Protéiné Intense</li><li>Luminothérapie</li><li>Soins Reconstructeurs</li><li>Coupe des pointes</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Nano Indien')">Choisir</button>
                     </div>
@@ -315,7 +362,7 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Botox Gloss Lissant</h3>
-                        <p>UN BOTOX CAPILLAIRE LISSANT, QUI ALLIE SOIN PROFOND ET ACTION GAINANTE POUR SUBLIMER LA CHEVELURE.</p>
+                        <p>UN BOTOX CAPILLAIRE LISSANT, QUI ALLIE SOIN PROFOND ET ACTION GAINANTE POUR SUBLIMER LA CHEVELURE SANS L'ALOURDIR.</p>
                         <ul><li>RÉDUIT LE VOLUME</li><li>DISCIPLINE LES FRISOTTIS</li><li>BRILLANCE MIROIR</li><li>TENUE 3 À 4 MOIS</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Botox Gloss (Lissant)')">Choisir</button>
                     </div>
@@ -330,7 +377,7 @@
                     </div>
                     <div class="card-face card-back">
                         <h3>Botox Non Lissant</h3>
-                        <p><strong>SILK :</strong> SOIN ENRICHI EN PROTÉINE DE SOIE. <strong>KERATINE :</strong> RÉPARATEUR RENFORCE LA FIBRE.</p>
+                        <p><strong>SILK :</strong> SOIN ENRICHI EN PROTÉINE DE SOIE, IDÉAL POUR UNE CHEVELURE LÉGÈRE ET FLUIDE. <strong>KERATINE :</strong> RÉPARATEUR RENFORCE LA FIBRE.</p>
                         <ul><li>STIMULE LA POUSSE</li><li>LIMITE LA CASSE</li><li>NUTRITION INTENSE</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Botox Non Lissant')">Choisir</button>
                     </div>
@@ -361,7 +408,7 @@
                     <div class="card-face card-back">
                         <h3>Forfait Racines</h3>
                         <p>RÉSERVÉ EXCLUSIVEMENT AUX CLIENTES AYANT EFFECTUÉ LEUR LISSAGE CHEZ MOI. TRAITE UNIQUEMENT LA REPOUSSE.</p>
-                        <ul><li>VALABLE JUSQU'À 6 MOIS</li><li>PRÉSERVE LES LONGUEURS</li><li>RÉSULTAT HOMOGÈNE</li></ul>
+                        <ul><li>VALABLE 6 MOIS</li><li>PRÉSERVE LES LONGUEURS</li><li>RÉSULTAT HOMOGÈNE</li></ul>
                         <button class="reserve-mini-btn" onclick="event.stopPropagation(); preselect('Forfait Racines')">Choisir</button>
                     </div>
                 </div>
@@ -369,7 +416,55 @@
         </div>
     </section>
 
-    <!-- GALLERY (AUTOPLAY) -->
+    <!-- DIAGNOSTIC VIRTUEL (RÉINSTALLÉ) -->
+    <section id="diagnostic" class="reveal">
+        <div class="section-header">
+            <h2 class="section-title">Diagnostic Virtuel</h2>
+            <div class="title-divider"></div>
+        </div>
+        <div class="quiz-card">
+            <div class="quiz-step active" id="q-intro">
+                <i class="fas fa-magic" style="font-size: 3.5rem; color: var(--color-gold); margin-bottom: 25px;"></i>
+                <h2 style="font-family: var(--font-title); font-size: 2.2rem; margin-bottom: 15px;">Conseil Expert</h2>
+                <p style="color: #aaa; margin-bottom: 40px;">Répondez à 3 questions pour recevoir notre recommandation personnalisée.</p>
+                <button class="cta-button" onclick="nextQ('step1')">Commencer le diagnostic</button>
+            </div>
+            <div class="quiz-step" id="q-step1">
+                <h3 style="margin-bottom:30px;">Quelle est la nature de vos cheveux ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-opt" onclick="setQ('t','fins'); nextQ('step2')">Fins, fragiles ou sensibilisés</div>
+                    <div class="quiz-opt" onclick="setQ('t','epais'); nextQ('step2')">Épais, très bouclés ou crépus</div>
+                    <div class="quiz-opt" onclick="setQ('t','ternes'); nextQ('step2')">Normaux mais en manque d'éclat</div>
+                </div>
+            </div>
+            <div class="quiz-step" id="q-step2">
+                <h3 style="margin-bottom:30px;">Quel résultat rêvez-vous d'obtenir ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-opt" onclick="setQ('g','lisse'); nextQ('step3')">Un lissage baguette durable (100%)</div>
+                    <div class="quiz-opt" onclick="setQ('g','soin'); nextQ('step3')">Réparer, nourrir et faire briller</div>
+                    <div class="quiz-opt" onclick="setQ('g','fete'); nextQ('step3')">Un fini soyeux pour quelques jours</div>
+                </div>
+            </div>
+            <div class="quiz-step" id="q-step3">
+                <h3 style="margin-bottom:30px;">Dernière étape...</h3>
+                <div class="quiz-options">
+                    <div class="quiz-opt" onclick="setQ('s','oui'); showRes()">J'ai déjà fait un lissage chez Ney Liss</div>
+                    <div class="quiz-opt" onclick="setQ('s','non'); showRes()">C'est ma toute première visite</div>
+                </div>
+            </div>
+            <div class="quiz-step" id="q-res">
+                <div class="result-box">
+                    <p style="text-transform: uppercase; letter-spacing: 3px; color: #888; font-size: 0.8rem; margin-bottom: 10px;">La recommandation de l'expert</p>
+                    <h3 id="res-name" style="font-size: 2.2rem; font-family: var(--font-title); color: var(--color-gold); margin: 15px 0;">...</h3>
+                    <p id="res-desc" style="color: #bbb; line-height: 1.7; margin-bottom: 30px; font-size: 0.95rem;"></p>
+                    <button class="reserve-mini-btn" id="res-btn" style="font-size: 1rem; padding: 16px 45px;">Réserver ce soin</button>
+                </div>
+                <button class="btn-back" style="margin-top: 35px;" onclick="resetQuiz()">Recommencer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY (INSTANT PLAY) -->
     <section id="gallery" class="reveal">
         <div class="section-header">
             <h2 class="section-title">Résultats en Mouvement</h2>
@@ -382,6 +477,36 @@
             <video class="gallery-video" autoplay muted loop playsinline preload="auto"><source src="video4.mp4" type="video/mp4"></video>
             <video class="gallery-video" autoplay muted loop playsinline preload="auto"><source src="video5.mp4" type="video/mp4"></video>
             <video class="gallery-video" autoplay muted loop playsinline preload="auto"><source src="video6.mp4" type="video/mp4"></video>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="reviews" class="reveal">
+        <div class="section-header">
+            <h2 class="section-title">Elles nous font confiance</h2>
+            <div class="title-divider"></div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Mes cheveux n'ont jamais été aussi brillants. Le lissage au tanin a sauvé mes longueurs. Un travail d'orfèvre !"</p>
+                <p class="client-name">- SARAH M.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Le Botox Gloss lissant a totalement discipliné mes frisottis. L'effet miroir est incroyable. Je recommande."</p>
+                <p class="client-name">- EMMA R.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Soin incroyable, mes cheveux revivent ! L'effet Tanin est bluffant sur mes boucles rebelles."</p>
+                <p class="client-name">- LÉA V.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Prestation de luxe, accueil chaleureux. Le forfait racines est parfait pour l'entretien."</p>
+                <p class="client-name">- CHLOÉ B.</p>
+            </div>
         </div>
     </section>
 
@@ -403,6 +528,10 @@
             <div class="faq-item" onclick="toggleFaq(this)">
                 <div class="faq-question">Les soins sont-ils compatibles grossesse/allaitement ? <i class="fas fa-chevron-down"></i></div>
                 <div class="faq-answer">Oui, nos produits sont sélectionnés pour leur haute qualité et sont formulés sans formol ni substances nocives. Cependant, nous recommandons toujours l'avis de votre médecin.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">Comment entretenir mon lissage en vacances ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Le chlore et le sel sont les ennemis du lissage. Avant chaque baignade, rincez vos cheveux à l'eau claire et appliquez un protecteur.</div>
             </div>
             <div class="faq-item" onclick="toggleFaq(this)">
                 <div class="faq-question">Le lissage abîme-t-il les cheveux ? <i class="fas fa-chevron-down"></i></div>
@@ -497,44 +626,47 @@
             else header.classList.remove('scrolled');
         });
 
-        // INTRO & GOLD SPARKLES (OPTIMISÉ RAPIDITÉ)
+        // INTRO & GOLD FLOWERS (OPTIMISÉ RAPIDITÉ)
         window.addEventListener('load', () => {
-            generateGoldLeaves();
+            generateGoldFlowers();
             generateLeaves();
             
-            // On force l'ouverture du site après seulement 1.2s
+            // On force l'ouverture après 1s
             setTimeout(() => {
                 document.body.classList.add('loaded');
-                // On force la lecture des vidéos pour GitHub
-                document.querySelectorAll('video').forEach(v => {
-                    v.play().catch(() => {});
-                });
+                document.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
                 
                 setTimeout(() => { 
                     const pre = document.getElementById('preloader');
                     if(pre) pre.style.display='none'; 
                 }, 800);
-            }, 1200);
+            }, 1000);
         });
 
-        function generateGoldLeaves() {
+        function generateGoldFlowers() {
             const loader = document.getElementById('preloader');
             if(!loader) return;
-            const count = 45;
+            const count = 40;
+            const symbols = ['🌸', '✨', '✦', '❀'];
             for(let i = 0; i < count; i++) {
                 setTimeout(() => {
-                    const sparkle = document.createElement('div');
-                    sparkle.className = 'gold-sparkle';
+                    const flower = document.createElement('div');
+                    flower.className = 'gold-flower-particle';
+                    flower.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+                    
                     const angle = Math.random() * Math.PI * 2;
-                    const dist = Math.max(window.innerWidth, window.innerHeight) * 0.7;
+                    const dist = Math.max(window.innerWidth, window.innerHeight) * 0.8;
                     const sx = Math.cos(angle) * dist + 'px';
                     const sy = Math.sin(angle) * dist + 'px';
-                    sparkle.style.setProperty('--startX', sx);
-                    sparkle.style.setProperty('--startY', sy);
-                    sparkle.style.left = '50%'; sparkle.style.top = '50%';
-                    sparkle.style.animationDelay = (Math.random() * 0.5) + 's';
-                    loader.appendChild(sparkle);
-                }, i * 25);
+
+                    flower.style.setProperty('--startX', sx);
+                    flower.style.setProperty('--startY', sy);
+                    flower.style.left = '50%'; flower.style.top = '50%';
+                    flower.style.fontSize = (Math.random()*15 + 10) + 'px';
+                    flower.style.animationDelay = (Math.random() * 0.5) + 's';
+                    
+                    loader.appendChild(flower);
+                }, i * 20);
             }
         }
 
@@ -563,10 +695,24 @@
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
         function handleCardClick(c, n) { if(window.innerWidth<=768) { if(!c.classList.contains('flipped')) { document.querySelectorAll('.card-container').forEach(o=>o.classList.remove('flipped')); c.classList.add('flipped'); } } else preselect(n); }
-        function preselect(n) { scrollToBooking(); document.querySelectorAll('.srv-item').forEach(o => { if(o.innerText.includes(n)) selBookingS(o, n); }); currS_B = 1; showS_B(1); }
+        function preselect(n) { scrollToBooking(); document.querySelectorAll('.srv-item').forEach(o => { if(o.innerText.includes(n) || (o.innerText.includes("Botox Gloss") && n.includes("Botox Gloss"))) selBookingS(o, n); }); currS_B = 1; showS_B(1); }
         function toggleFaq(el) { el.classList.toggle('active'); }
 
-        // LOGIQUE RÉSERVATION & MAIL
+        // LOGIQUE QUIZ (RÉINSTALLÉ)
+        let qA = {t:'', g:'', s:''};
+        function nextQ(id) { document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active')); document.getElementById('q-'+id).classList.add('active'); }
+        function setQ(k, v) { qA[k]=v; }
+        function showRes() {
+            let r = "Botox Gloss (Lissant)", d = "Le soin éclat miroir par excellence pour une brillance absolue.";
+            if(qA.s==='oui') { r="Forfait Racines"; d="Parfait pour entretenir vos racines sans toucher à vos longueurs."; }
+            else if(qA.t==='epais' && qA.g==='lisse') { r="Nano Indien"; d="Le lissage le plus puissant pour transformer vos cheveux rebelles en soie."; }
+            else if(qA.t==='fins') { r="Lissage California"; d="Un lissage tout en douceur qui répare et respecte la finesse de vos cheveux."; }
+            document.getElementById('res-name').innerText = r; document.getElementById('res-desc').innerText = d;
+            document.getElementById('res-btn').onclick = () => preselect(r); nextQ('res');
+        }
+        function resetQuiz() { nextQ('intro'); }
+
+        // LOGIQUE RÉSERVATION
         let currS_B = 1, bData = {s:null, d:null, t:null}, cY = 2026, cM = 4;
         const months = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
 
@@ -602,7 +748,7 @@
                 const phone = document.getElementById('b-phone').value.trim();
                 const notes = document.getElementById('b-notes').value.trim() || "Aucune note";
                 const subject = encodeURIComponent(`Réservation NEY LISS - ${name}`);
-                const body = encodeURIComponent(`Bonjour NEY LISS,\n\nPrestation : ${bData.s}\nDate : ${bData.d}\nHeure : ${bData.t}\nClient : ${name}\nTel : ${phone}\nNotes : ${notes}`);
+                const body = encodeURIComponent(`Bonjour NEY LISS,\n\nNouvelle demande effectuée :\n\nSoin : ${bData.s}\nDate : ${bData.d}\nHeure : ${bData.t}\nClient : ${name}\nTel : ${phone}\nNotes : ${notes}`);
                 window.location.href = `mailto:neyliss.pro@gmail.com?subject=${subject}&body=${body}`;
                 document.getElementById('btnN').innerText="Envoyé !"; return;
             }
